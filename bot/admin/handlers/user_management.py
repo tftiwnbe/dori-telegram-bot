@@ -25,9 +25,12 @@ async def user_list_handler(callback: CallbackQuery):
     users = await db.list_of_all_users()
     response_text = "Список пользователей:\n"
     for user in users:
-        response_text += (
-            f"\#{user ['id']} \- {user['username']} \(ID: {user['user_id']}\)\n"
-        )
+        if user["username"] != None:
+            response_text += (
+                f"\#{user ['id']} \- {user['username']} \(ID: {user['user_id']}\)\n"
+            )
+        else:
+            response_text += f"\#{user ['id']} \- {user['first_name']} {user['last_name']} \(ID: {user['user_id']}\)\n"
     await callback.message.answer(response_text, reply_markup=kb.main_kb)
     await callback.answer()
     await callback.message.edit_reply_markup()

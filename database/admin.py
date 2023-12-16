@@ -17,7 +17,7 @@ class Admin:
     async def list_of_all_users(self):  # Выводим список всех пользоавтелей
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cur:
-                sql = "SELECT `id`, `username`, `user_id` FROM `users`;"
+                sql = "SELECT `id`, `user_id`, `username`, `first_name`, `last_name` FROM `users`;"
                 await cur.execute(sql)
                 users = await cur.fetchall()
                 columns = [

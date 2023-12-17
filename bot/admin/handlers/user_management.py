@@ -37,6 +37,24 @@ async def user_list_handler(callback: CallbackQuery):
     logger.info("Users list sended")
 
 
+@router.callback_query(F.data == "admins_list")
+async def admins_list_handler(callback: CallbackQuery):
+    logger.info("Admins_list command handled!")
+    users = await db.list_of_admins()
+    response_text = "Список Администраторов:\n"
+    for user in users:
+        if user["username"] != None:
+            response_text += (
+                f"\#{user ['id']} \- {user['username']} \(ID: {user['user_id']}\)\n"
+            )
+        else:
+            response_text += f"\#{user ['id']} \- {user['first_name']} {user['last_name']} \(ID: {user['user_id']}\)\n"
+    await callback.message.answer(response_text, reply_markup=kb.main_kb)
+    await callback.answer()
+    await callback.message.edit_reply_markup()
+    logger.info("Users list sended")
+
+
 @router.callback_query(F.data == "users_statistic")
 async def count_users_handler(callback: CallbackQuery):
     logger.info("Count_users command handled")

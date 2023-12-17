@@ -1,7 +1,6 @@
 import asyncio
 from typing import Callable, Awaitable, Dict, Any
 from aiogram import BaseMiddleware
-from aiogram.filters.command import Command
 from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.types import TelegramObject, CallbackQuery
 from loguru import logger

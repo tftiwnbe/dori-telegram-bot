@@ -20,9 +20,11 @@ dp_main = Dispatcher(storage=storage)
 def startModules():  # Запуск модулей
     try:
         logger.info("Start loading modules...")
+        from bot.features.timetable import loader as timetable
         from bot.admin import loader as adminka
         from bot.core import loader as core
 
+        timetable.enable()
         adminka.enable()
         core.enable()  # Ядро должно запускаться последним
 

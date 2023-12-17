@@ -9,10 +9,8 @@ main_kb = [
         IButton(text="Пользователи", callback_data="user_managment"),
         IButton(text="Настройка бота", callback_data="bot_settings"),
     ],
-    [
-        IButton(text="Программа1", callback_data="program1_settings"),
-        IButton(text="Программа2", callback_data="program2_settings"),
-    ],
+    [IButton(text="Сконвертировать расписание", callback_data="convert_timetable")],
+    [IButton(text="Помощь", callback_data="admin_help")],
 ]
 
 

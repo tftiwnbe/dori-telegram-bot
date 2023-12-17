@@ -4,9 +4,10 @@ from aiogram.types import (
 )
 
 main_kb = [
+    [IButton(text="Статистика", callback_data="users_statistic")],
     [
-        IButton(text="Статистика", callback_data="users_statistic"),
         IButton(text="Список пользователей", callback_data="users_list"),
+        IButton(text="Список Администраторов", callback_data="admins_list"),
     ],
     [IButton(text=" <-- Вернуться", callback_data="admin_menu")],
 ]

@@ -6,8 +6,8 @@ from aiogram.types import (
 
 menu_kb = [
     [
-        IButton(text="Программа1", callback_data="program1"),
-        IButton(text="Программа2", callback_data="program2"),
+        IButton(text="Расписание занятий", callback_data="timetable"),
+        IButton(text="Опоздания", callback_data="bad_humans"),
     ],
     [
         IButton(text="Помощь", callback_data="help"),

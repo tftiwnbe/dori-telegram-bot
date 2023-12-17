@@ -5,6 +5,15 @@ from database.connect import db_connect
 class Users:
     pool: Pool = db_connect
 
+    async def id_of_users(self):
+        async with self.pool.acquire() as conn:
+            async with conn.cursor() as cur:
+                sql = "SELECT `user_id` FROM `users`;"
+                await cur.execute(sql)
+                # Используем списковое включение и распаковку значений
+                result = [user_id for (user_id,) in await cur.fetchall()]
+                return tuple(result)  # преобразуем список в кортеж
+
     async def search_user(self, user_id):  # Проверка наличия пользователя в базе данных
         async with self.pool.acquire() as conn:
             async with conn.cursor() as cur:
@@ -24,3 +33,11 @@ class Users:
                 )
                 await cur.execute(sql, values)
                 return await cur.fetchone()
+
+    async def all_users_list(self):
+        async with self.pool.acquire() as conn:
+            async with conn.cursor() as cur:
+                sql = "SELECT `user_id` FROM users;"
+                await cur.execute(sql)
+                users_list = await cur.fetchall()
+                return users_list

@@ -5,4 +5,4 @@ loguru>0.7.0
 python-dotenv==1.0.0
 cachetools>5.0.0
 pydantic_settings==2.0.0
-
+pdf2image>1.16.0

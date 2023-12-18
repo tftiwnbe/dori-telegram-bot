@@ -12,6 +12,9 @@ subscribe_kb = [
     [
         IButton(text="Покажи расписание", callback_data="get_timetable"),
     ],
+    [
+        IButton(text="Главное меню", callback_data="main_menu"),
+    ],
 ]
 
 timetable_kb = [

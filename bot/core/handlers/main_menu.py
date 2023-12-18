@@ -17,16 +17,16 @@ async def main_menu_text_handler(message: Message) -> None:
 
 @router.callback_query(F.data == "main_menu")
 async def main_menu_callback_handler(callback: CallbackQuery) -> None:
-    await callback.message.answer("📍 Главное меню", reply_markup=main_menu.menu_kb)
+    await callback.message.edit_text("📍 Главное меню", reply_markup=main_menu.menu_kb)
     await callback.answer()
-    await callback.message.edit_reply_markup()
+    # await callback.message.edit_reply_markup()
 
 
 @router.callback_query(F.data)
 async def weird_data_handler(callback: CallbackQuery) -> None:
     with suppress(TelegramBadRequest):
-        await callback.message.delete()
-        await callback.message.answer("Простите, что\-то не так :\(")
+        # await callback.message.delete()
+        await callback.message.edit_text("Простите, что\-то не так :\(")
         await callback.message.answer(
             "Но вот\.\.\. \n\n📍 Главное меню", reply_markup=main_menu.menu_kb
         )

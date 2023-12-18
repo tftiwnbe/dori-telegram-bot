@@ -2,7 +2,6 @@ from aiogram import Router
 from aiogram.filters import Command, CommandObject
 from aiogram.enums import ParseMode
 from aiogram.types import Message
-from loguru import logger
 from bot.admin.filters.is_admin import IsAdmin
 
 from runners.launch import bot

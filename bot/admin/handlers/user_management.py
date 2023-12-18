@@ -1,5 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
+from aiogram.enums import ParseMode
 from loguru import logger
 from bot.admin.filters.is_admin import IsAdmin
 from bot.admin.keyboards import user_managment as kb
@@ -12,11 +13,10 @@ db = admin_db.Admin()
 
 @router.callback_query(F.data == "user_managment", IsAdmin())
 async def user_managment_menu_handler(callback: CallbackQuery):
-    await callback.message.answer(
-        "*Управление пользователями*", reply_markup=kb.main_kb
+    await callback.message.edit_text(
+        "*Управление пользователями*", reply_markup=kb.menu_kb
     )
     await callback.answer()
-    await callback.message.edit_reply_markup()
 
 
 @router.callback_query(F.data == "users_list")
@@ -27,13 +27,14 @@ async def user_list_handler(callback: CallbackQuery):
     for user in users:
         if user["username"] != None:
             response_text += (
-                f"\#{user ['id']} \- {user['username']} \(ID: {user['user_id']}\)\n"
+                f"#{user ['id']} - {user['username']} (ID: {user['user_id']})\n"
             )
         else:
-            response_text += f"\#{user ['id']} \- {user['first_name']} {user['last_name']} \(ID: {user['user_id']}\)\n"
-    await callback.message.answer(response_text, reply_markup=kb.main_kb)
+            response_text += f"#{user ['id']} - {user['first_name']} {user['last_name']} (ID: {user['user_id']})\n"
+    await callback.message.edit_text(
+        response_text, parse_mode=ParseMode.HTML, reply_markup=kb.admins_kb
+    )
     await callback.answer()
-    await callback.message.edit_reply_markup()
     logger.info("Users list sended")
 
 
@@ -49,9 +50,8 @@ async def admins_list_handler(callback: CallbackQuery):
             )
         else:
             response_text += f"\#{user ['id']} \- {user['first_name']} {user['last_name']} \(ID: {user['user_id']}\)\n"
-    await callback.message.answer(response_text, reply_markup=kb.main_kb)
+    await callback.message.edit_text(response_text, reply_markup=kb.users_kb)
     await callback.answer()
-    await callback.message.edit_reply_markup()
     logger.info("Users list sended")
 
 
@@ -65,7 +65,6 @@ async def count_users_handler(callback: CallbackQuery):
         Susbscribe Time: {counts ['subscribed_users']}
         Админов: {counts ['admin_users']}
     """
-    await callback.message.answer(response_text, reply_markup=kb.main_kb)
+    await callback.message.edit_text(response_text, reply_markup=kb.stats_kb)
     await callback.answer()
-    await callback.message.edit_reply_markup()
     logger.info("Counts of users sended")

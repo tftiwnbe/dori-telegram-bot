@@ -39,10 +39,11 @@ async def convert_doc(bad_doc, locate):
 
 async def convert_pdf(bad_pdf, locate):
     try:
-        images = convert_from_path(f"{bad_pdf}", 100)  # use pdf2image to convert
+        images = convert_from_path(f"{bad_pdf}", 310)  # use pdf2image to convert
         for i, image in enumerate(images):  # save result for all pages
             image.save(f"{locate}/{i}.png", "PNG")
-            return True
+            # logger.debug(f"Saving {locate}/{i}.png")
+        return True
     except Exception as e:
         shutil.move(swap, png)
         logger.error(f"Coverting pdf error: {e}")
@@ -87,6 +88,7 @@ async def convert_timetable(auto=False):
         png.mkdir()
         if await convert_doc(doc, module):
             await notif.save_pdf(pdf)
+            pass
         if await convert_pdf(pdf, png):
             await notif.cmd_notify_admins("Расписание успешно сконвертировано!")
             if not auto:

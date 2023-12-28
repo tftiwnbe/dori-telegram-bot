@@ -1,6 +1,5 @@
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
-
 from aiogram.fsm.storage.redis import RedisStorage
 from loguru import logger
 
@@ -20,9 +19,9 @@ dp_main = Dispatcher(storage=storage)
 def startModules():  # Запуск модулей
     try:
         logger.info("Start loading modules...")
-        from bot.features.timetable import loader as timetable
         from bot.admin import loader as adminka
         from bot.core import loader as core
+        from bot.features.timetable import loader as timetable
 
         timetable.enable()
         adminka.enable()

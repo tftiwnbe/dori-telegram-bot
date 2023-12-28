@@ -6,6 +6,9 @@ class Settings(BaseSettings):
     # Желательно вместо str использовать SecretStr
     # для конфиденциальных данных, например, токена бота
     bot_token: SecretStr
+    web_server_host: SecretStr
+    web_server_port: SecretStr
+    base_webhook_url: SecretStr
     db_host: SecretStr
     db_user: SecretStr
     db_pass: SecretStr

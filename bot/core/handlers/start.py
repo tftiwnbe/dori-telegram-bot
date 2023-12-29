@@ -35,5 +35,7 @@ async def command_start_handler(message: Message) -> None:
 
 @router.callback_query(F.data == "start_meet")
 async def start_meeting_handler(callback: CallbackQuery) -> None:
-    await callback.message.edit_text(about_self, reply_markup=start.old_start_kb)
+    await callback.message.edit_text(
+        await about_self(), reply_markup=start.old_start_kb
+    )
     await callback.answer()

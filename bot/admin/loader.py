@@ -11,3 +11,6 @@ def enable() -> None:  # Регестрация Роутеров
         help_to_users.router,
     )
     logger.info("Admin routers included")
+
+
+enable()

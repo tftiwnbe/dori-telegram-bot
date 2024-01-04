@@ -11,6 +11,8 @@ main_kb = [
     ],
     [IButton(text="Сконвертировать расписание", callback_data="convert_timetable")],
     [IButton(text="Помощь", callback_data="admin_help")],
+    [IButton(text="Сообщение пользователям", callback_data="send_all")],
+    [IButton(text="Сообщение Администраторам", callback_data="send_admins")],
 ]
 
 

@@ -71,8 +71,6 @@ async def paths():
 
 async def convert_timetable():
     await paths()
-    if True:
-        return 1
     for file in new_doc:
         shutil.copy(str(file), str(doc))
         file.unlink()

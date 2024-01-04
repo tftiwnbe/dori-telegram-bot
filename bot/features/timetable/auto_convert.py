@@ -5,8 +5,6 @@ from loguru import logger
 
 from pdf2image import convert_from_path
 
-from bot.features.timetable.notifications import notify_timetable_subs
-from bot.admin.notifications import notify_admin
 
 # Need install "poppler" and libreoffice
 
@@ -26,17 +24,14 @@ async def convert_doc(bad_doc, locate):
             ]
         )
         bad_doc.unlink()  # delete used doc
-        return True
+        return 1
     except Exception as e:
         logger.error(f"Converting docx error: {e}")
-        await notify_admin(
-            f"""
+        return f"""
         Ошибка при конвертации расписания в pdf!
 
         {e}
         """
-        )
-        return False
 
 
 async def convert_pdf(bad_pdf, locate):
@@ -45,18 +40,15 @@ async def convert_pdf(bad_pdf, locate):
         for i, image in enumerate(images):  # save result for all pages
             image.save(f"{locate}/{i}.png", "PNG")
             # logger.debug(f"Saving {locate}/{i}.png")
-        return True
+        return 1
     except Exception as e:
         shutil.move(swap, png)
         logger.error(f"Coverting pdf error: {e}")
-        await notify_admin(
-            f"""
+        return f"""
         Ошибка при конвертации расписания в png!
 
         {e}
         """
-        )
-        return False
 
 
 async def paths():
@@ -79,6 +71,8 @@ async def paths():
 
 async def convert_timetable():
     await paths()
+    if True:
+        return 1
     for file in new_doc:
         shutil.copy(str(file), str(doc))
         file.unlink()
@@ -86,11 +80,15 @@ async def convert_timetable():
         shutil.rmtree(swap)
         shutil.move(png, swap)
         png.mkdir()
-        if await convert_doc(doc, module):
-            await notify_timetable_subs()
-            if await convert_pdf(pdf, png):
-                await notify_admin("Расписание успешно сконвертировано!")
-                logger.info("Timetable converted manual")
+        res_pdf = await convert_doc(doc, module)
+        if res_pdf == 1:
+            res_png = await convert_pdf(pdf, png)
+            if res_png == 1:
+                logger.info("Timetable converted automatically")
+                return 1
+            else:
+                return res_png
+        else:
+            return res_pdf
     else:
-        await notify_admin("Конвертация не удалась, так как нечего конвертировать :)")
-        logger.info("Manual coverting failed")
+        return 0

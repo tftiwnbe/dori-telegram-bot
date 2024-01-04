@@ -7,3 +7,6 @@ from runners.launch import dp_main as dp
 def enable() -> None:  # Регестрация Роутеров
     dp.include_routers(timetable.router)
     logger.info("Timetable routers included")
+
+
+enable()

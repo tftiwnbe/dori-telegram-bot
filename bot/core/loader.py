@@ -11,3 +11,6 @@ def enable() -> None:  # Регестрация Роутеров
     dp.callback_query.outer_middleware(ThrottlingMiddleware(storage))
     dp.include_routers(start.router, main_menu.router)
     logger.info("Core routers included")
+
+
+enable()

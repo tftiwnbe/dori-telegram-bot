@@ -1,25 +1,50 @@
 from aiogram import Router, F
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
+from aiogram.fsm.context import FSMContext
 from aiogram.exceptions import TelegramBadRequest
 from loguru import logger
 from contextlib import suppress
 
+from runners.launch import dp_main
 from bot.core.keyboards import main_menu
+from bot.core.help import help_say
 
 router = Router()
 
 
-@router.message(F.text.lower() == "/menu")
-@router.message(F.text.lower() == "меню")
-async def main_menu_text_handler(message: Message) -> None:
-    await message.answer("📍 Главное меню", reply_markup=main_menu.menu_kb)
+@dp_main.message(F.text.lower() == "/menu")
+@dp_main.message(F.text.lower() == "меню")
+async def main_menu_text_handler(message: Message, state: FSMContext) -> None:
+    if not await state.get_state():
+        await message.delete()
+        await message.answer("📍 Главное меню", reply_markup=main_menu.menu_kb)
+    else:
+        await message.delete()
+        await state.clear()
+        await message.answer(
+            "Активность прерванна\!", reply_markup=ReplyKeyboardRemove()
+        )
 
 
-@router.callback_query(F.data == "main_menu")
+@dp_main.message(F.text.lower() == "/cancel")
+@dp_main.message(F.text.lower() == "отмена")
+async def cmd_cancel(message: Message, state: FSMContext):
+    if not await state.get_state():
+        await message.answer(text="Нечего отменять", reply_markup=ReplyKeyboardRemove())
+    else:
+        await state.clear()
+        await message.answer("Действие отменено", reply_markup=ReplyKeyboardRemove())
+
+
+@dp_main.callback_query(F.data == "main_menu")
 async def main_menu_callback_handler(callback: CallbackQuery) -> None:
     await callback.message.edit_text("📍 Главное меню", reply_markup=main_menu.menu_kb)
     await callback.answer()
-    # await callback.message.edit_reply_markup()
+
+
+@router.callback_query(F.data == "help_menu")
+async def help_menu_callback_handler(callback: CallbackQuery) -> None:
+    await callback.message.edit_text(await help_say(), reply_markup=main_menu.help_kb)
 
 
 @router.callback_query(F.data)

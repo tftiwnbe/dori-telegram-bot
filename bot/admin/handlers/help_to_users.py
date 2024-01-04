@@ -28,16 +28,11 @@ async def asking_admin(callback: CallbackQuery, state: FSMContext) -> None:
 
 
 @router.message(UsersState.asking_for_help)
-async def wait_text_to_transfer(message: Message, state: FSMContext) -> None:
+async def forvard_message_to_admins(message: Message, state: FSMContext) -> None:
     admins = await admin_db.id_of_admins()
     for admin in list(admins):
-        await bot.send_message(
-            admin,
-            f"""
-        {message.from_user.username} просит о помощи:
----
-{message.text}
-        """,
-            parse_mode=ParseMode.HTML,
+        await bot.send_message(admin, f"*{message.from_user.id}* просит о помощи:")
+        await bot.forward_message(
+            admin, message.from_user.id, message.message_id, disable_notification=True
         )
         await state.clear()

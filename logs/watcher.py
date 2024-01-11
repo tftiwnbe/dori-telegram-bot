@@ -19,6 +19,8 @@ class LogFileWatcher:
         self.log_file = os.path.join(log_file_path, self.file_name)
         self.setup_redis()
 
+        logger.info(f"Tracking {self.log_file}")
+
     def setup_redis(self):
         self.redis = redis.Redis(host="localhost", port=6379, decode_responses=True)
         if not self.redis.exists(self.redis_key):
@@ -89,7 +91,7 @@ class LogFileHandler(FileSystemEventHandler):
                 if result[1] is not None:
                     data = {"factorio": result[1]}
                     self.send_notification(data)
-                    logger.info(f"{result[0]} - {result[1]}")
+                    # logger.info(f"{result[0]}: {data}")
                     self.redis.set(self.redis_key, value=result[0])
                 else:
                     break

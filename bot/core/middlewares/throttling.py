@@ -4,12 +4,12 @@ from aiogram import BaseMiddleware
 from aiogram.fsm.storage.redis import RedisStorage
 from aiogram.types import TelegramObject, CallbackQuery
 from loguru import logger
-from aiogram.dispatcher.flags import get_flag
+from aiogram.dispatcher.flags import extract_flags, get_flag
 
 
 class ThrottlingMiddleware(BaseMiddleware):
     def __init__(  # Инициализация: принимаем экземпляр хранилища и время антифлуда
-        self, storage: RedisStorage, rate_limit: int = 5, key_prefix="antiflood_"
+        self, storage: RedisStorage, rate_limit: int = 1, key_prefix="antiflood_"
     ) -> None:
         self.storage = storage
         self.rate_limit = rate_limit
@@ -27,17 +27,16 @@ class ThrottlingMiddleware(BaseMiddleware):
 
         # Ищем отмеченные флагом хэндлеры
         marked = get_flag(data, "rate_limit")
-
+        logger.debug(marked)
         if marked:
-            key = get_flag(data, "rate_limit")["key"]
-            limit = get_flag(data, "rate_limit")["rate"]
-        else:  # Если хэндлер не отмечен - получаем детали события
-            if isinstance(event, CallbackQuery):
-                key = f"{self.prefix}_{event.data}__message"
-            else:
-                key = f"{self.prefix}_{event.text}__message"
+            limit = marked
+        else:  # Если хэндлер не отмечен - используем стандартные значения
             limit = self.rate_limit
-        # logger.debug(key)
+
+        if isinstance(event, CallbackQuery):
+            key = f"{self.prefix}_{event.data}__message__from__{event.from_user.id}"
+        else:
+            key = f"{self.prefix}_{event.text}__message__from__{event.from_user.id}"
 
         """
         Получаем из редиски "ключ", если он существует

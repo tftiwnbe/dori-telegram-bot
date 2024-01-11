@@ -22,6 +22,6 @@ async def process_data(client_ip, data):
         response = b"\x00"
     except Exception as e:
         response = b"\x01"
-        logger.error(f"Error processing data from {client_ip}: {e}")
+        logger.error(f"Error processing data from {client_ip}: {e}, data - {data}")
 
     return response

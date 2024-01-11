@@ -9,15 +9,30 @@ router = Router()
 
 @router.message(F.text.lower() == "/.", IsAdmin())
 @router.message(F.text.lower() == "/admin", IsAdmin())  # Открыть админку
-async def admin_menu_handler(message: Message) -> None:
+async def open_admin_menu_handler(message: Message) -> None:
     await message.delete()
     await message.answer("*Панель администратора:*", reply_markup=admin_panel.main_kb)
 
 
 @router.callback_query(F.data == "admin_menu", IsAdmin())
-async def back_to_admin_menu_handler(callback: CallbackQuery) -> None:
+async def to_admin_menu_handler(callback: CallbackQuery) -> None:
     await callback.message.edit_text(
         "*Панель администратора:*", reply_markup=admin_panel.main_kb
     )
     await callback.answer()
-    # await callback.message.edit_reply_markup()
+
+
+@router.callback_query(F.data == "bot_settings", IsAdmin())
+async def bot_settings_handler(callback: CallbackQuery) -> None:
+    await callback.message.edit_text(
+        "Здесь ничего нет, хахах", reply_markup=admin_panel.one_bt
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data == "help_for_admin", IsAdmin())
+async def help_for_admin_handler(callback: CallbackQuery) -> None:
+    await callback.message.edit_text(
+        "*тебе никто не поможет* ⚰️", reply_markup=admin_panel.sad_kb
+    )
+    await callback.answer()

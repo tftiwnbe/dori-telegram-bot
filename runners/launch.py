@@ -19,13 +19,10 @@ dp_main = Dispatcher(storage=storage)
 def startModules():  # Запуск модулей
     try:
         logger.info("Start loading modules...")
-        from bot.admin import loader as adminka
-        from bot.core import loader as core
-        from bot.features.timetable import loader as timetable
-
-        timetable.enable()
-        adminka.enable()
-        core.enable()  # Ядро должно запускаться последним
+        from bot.features.timetable import loader
+        from bot.admin import loader
+        from bot.core import loader
+        from local_socket import server
 
         logger.info("Modules loading completed!")
     except Exception as e:

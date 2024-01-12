@@ -27,7 +27,7 @@ class ThrottlingMiddleware(BaseMiddleware):
 
         # Ищем отмеченные флагом хэндлеры
         marked = get_flag(data, "rate_limit")
-        logger.debug(marked)
+        # logger.debug(marked)
         if marked:
             limit = marked
         else:  # Если хэндлер не отмечен - используем стандартные значения

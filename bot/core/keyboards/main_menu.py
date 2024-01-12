@@ -17,8 +17,8 @@ menu_kb = [
 
 help_kb = [
     [
-        IButton(text="<--Главное меню", callback_data="main_menu"),
-        IButton(text="Связь с богами", callback_data="say_to_admin"),
+        IButton(text="<--Назад", callback_data="main_menu"),
+        IButton(text="Донос 💌", callback_data="say_to_admin"),
     ],
 ]
 

@@ -31,7 +31,7 @@ async def send_timetable_callback_handler(callback: CallbackQuery) -> None:
     await callback.message.delete()
     await callback.message.answer_document(redis.get("pdf"))
     await callback.message.answer(
-        "Здесь больше ничего нет :\(", reply_markup=kb.menu_kb
+        "Возвращайся в главное меню ⛔︎", reply_markup=kb.menu_kb
     )
 
 

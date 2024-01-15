@@ -1,4 +1,5 @@
 import asyncio
+import json
 from loguru import logger
 from main import loop
 from local_socket.data_handler import process_data
@@ -50,7 +51,15 @@ class ServerProtocol(asyncio.Protocol):
             message = self.buffer[: closing_bracket_index + 1]
             # Обновление буфера, оставив остаток строки после закрывающей скобки
             self.buffer = self.buffer[closing_bracket_index + 1 :]
-            response = await process_data(self.client_ip, message)
+
+            # Проверяем, является ли извлеченная строка корректным JSON
+            try:
+                json_message = json.loads(message.decode("utf-8"))
+            except json.JSONDecodeError:
+                # Произошла ошибка при декодировании JSON, пропускаем сообщение
+                continue
+
+            response = await process_data(self.client_ip, json_message)
             self.transport.write(response)
 
     def connection_lost(self, exc):

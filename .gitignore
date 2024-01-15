@@ -1,0 +1,9 @@
+__pycache__
+.DS_Store
+env
+*.pdf
+*.log.zip
+SWAP/*
+my-python*
+pyrightconfig.json
+

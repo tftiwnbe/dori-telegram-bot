@@ -24,6 +24,7 @@ async def main_menu_text_handler(message: Message, state: FSMContext) -> None:
         await message.answer(
             "Активность прерванна\!", reply_markup=ReplyKeyboardRemove()
         )
+        await message.answer("Назад\! В главное меню\!", reply_markup=main_menu.menu_kb)
 
 
 @dp_main.message(F.text.lower() == "/cancel")
@@ -34,6 +35,9 @@ async def cmd_cancel(message: Message, state: FSMContext):
     else:
         await state.clear()
         await message.answer("Действие отменено", reply_markup=ReplyKeyboardRemove())
+        await message.answer(
+            "Возвращаемся в главное меню", reply_markup=main_menu.menu_kb
+        )
 
 
 @dp_main.callback_query(F.data == "main_menu")

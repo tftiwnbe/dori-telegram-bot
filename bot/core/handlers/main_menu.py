@@ -42,6 +42,12 @@ async def main_menu_callback_handler(callback: CallbackQuery) -> None:
     await callback.answer()
 
 
+@dp_main.callback_query(F.data == "exit_from_menu")
+async def exit_from_menu_callback_handler(callback: CallbackQuery) -> None:
+    await callback.message.edit_text("📍 Главное меню", reply_markup=main_menu.menu_kb)
+    await callback.answer()
+
+
 @router.callback_query(F.data == "help_menu")
 async def help_menu_callback_handler(callback: CallbackQuery) -> None:
     await callback.message.edit_text(await help_say(), reply_markup=main_menu.help_kb)

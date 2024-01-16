@@ -36,3 +36,5 @@ async def forvard_message_to_admins(message: Message, state: FSMContext) -> None
             admin, message.from_user.id, message.message_id, disable_notification=True
         )
         await state.clear()
+
+    await message.answer("Сообщение успешно доставлено\!")

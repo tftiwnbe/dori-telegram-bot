@@ -46,10 +46,10 @@ async def admins_list_handler(callback: CallbackQuery):
     for user in users:
         if user["username"] != None:
             response_text += (
-                f"\#{user ['id']} \- {user['username']} \(ID: {user['user_id']}\)\n"
+                f"#{user ['id']} - {user['username']} (ID: {user['user_id']})\n"
             )
         else:
-            response_text += f"\#{user ['id']} \- {user['first_name']} {user['last_name']} \(ID: {user['user_id']}\)\n"
+            response_text += f"#{user ['id']} \- {user['first_name']} {user['last_name']} (ID: {user['user_id']})\n"
     await callback.message.edit_text(response_text, reply_markup=kb.users_kb)
     await callback.answer()
     logger.info("Users list sended")

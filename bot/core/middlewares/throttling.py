@@ -23,7 +23,7 @@ class ThrottlingMiddleware(BaseMiddleware):
     ) -> Any:
         # Закготовленные реплики
         too_many_request = "Я обнаружила подозрительную активность, вы наказаны, бугага"
-        unlocked = "Ладно, всё хорошо :\)"
+        unlocked = "Ладно, всё хорошо :)"
 
         # Ищем отмеченные флагом хэндлеры
         marked = get_flag(data, "rate_limit")

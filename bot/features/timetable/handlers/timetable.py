@@ -41,7 +41,7 @@ async def subscribe_callback_handler(callback: CallbackQuery) -> None:
     if not await db.subscribed_user(user_id):
         await db.toggle_user(user_id)
         await callback.message.edit_text(
-            "Вы успешно подписаны\!", reply_markup=kb.get_kb
+            "Вы успешно подписаны!", reply_markup=kb.get_kb
         )
     else:
         await callback.answer("Вы уже подписаны на обновления расписания :)")
@@ -55,7 +55,7 @@ async def unsubscribe_callback_handler(callback: CallbackQuery) -> None:
     if await db.subscribed_user(user_id):
         await db.toggle_user(user_id, toggle=0)
         await callback.message.edit_text(
-            "Уведомления отключены\!", reply_markup=kb.menu_kb
+            "Уведомления отключены!", reply_markup=kb.menu_kb
         )
     else:
         await callback.answer("Вы ничего не изменили, хахах :)")

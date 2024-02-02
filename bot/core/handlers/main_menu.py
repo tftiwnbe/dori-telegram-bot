@@ -22,9 +22,9 @@ async def main_menu_text_handler(message: Message, state: FSMContext) -> None:
         await message.delete()
         await state.clear()
         await message.answer(
-            "Активность прерванна\!", reply_markup=ReplyKeyboardRemove()
+            "Активность прерванна!", reply_markup=ReplyKeyboardRemove()
         )
-        await message.answer("Назад\! В главное меню\!", reply_markup=main_menu.menu_kb)
+        await message.answer("Назад! В главное меню!", reply_markup=main_menu.menu_kb)
 
 
 @dp_main.message(F.text.lower() == "/cancel")
@@ -61,9 +61,9 @@ async def help_menu_callback_handler(callback: CallbackQuery) -> None:
 async def weird_data_handler(callback: CallbackQuery) -> None:
     with suppress(TelegramBadRequest):
         # await callback.message.delete()
-        await callback.message.edit_text("Простите, что\-то не так :\(")
+        await callback.message.edit_text("Простите, что-то не так :(")
         await callback.message.answer(
-            "Но вот\.\.\. \n\n📍 Главное меню", reply_markup=main_menu.menu_kb
+            "Но вот... \n\n📍 Главное меню", reply_markup=main_menu.menu_kb
         )
         logger.warning(
             f"""
@@ -76,10 +76,10 @@ async def weird_data_handler(callback: CallbackQuery) -> None:
 async def weird_text_handler(message: Message) -> None:  # ловим остальные сообщения
     await message.delete()
     await message.answer(
-        "Прости, но я тебя не понимаю :\(",
+        "Прости, но я тебя не понимаю :(",
     )
     await message.answer(
-        "Лучше посмотри на моё\.\.\. \n\n📍 Главное меню",
+        "Лучше посмотри на моё... \n\n📍 Главное меню",
         reply_markup=main_menu.menu_kb,
     )
     logger.warning(

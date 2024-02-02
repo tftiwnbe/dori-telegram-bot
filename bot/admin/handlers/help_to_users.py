@@ -37,4 +37,4 @@ async def forvard_message_to_admins(message: Message, state: FSMContext) -> None
         )
         await state.clear()
 
-    await message.answer("Сообщение доставлено администраторам\!")
+    await message.answer("Сообщение доставлено администраторам!")

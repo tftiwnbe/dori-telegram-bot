@@ -26,9 +26,9 @@ class AdminState(StatesGroup):
 @router.message(Command("sendall"), IsAdmin())
 async def cmd_notify_all(object: TelegramObject, state: FSMContext) -> None:
     if isinstance(object, CallbackQuery):
-        await object.message.edit_text("Пиши, Я всех ознакомлю :\)")
+        await object.message.edit_text("Пиши, Я всех ознакомлю :)")
     else:
-        await object.answer("Пиши, Я всех ознакомлю :\)")
+        await object.answer("Пиши, Я всех ознакомлю :)")
     await state.set_state(AdminState.say_them)
 
 

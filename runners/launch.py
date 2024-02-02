@@ -12,7 +12,7 @@ token = config.bot_token.get_secret_value()
 storage = RedisStorage.from_url(
     "redis://localhost:6379/0",
 )
-bot = Bot(token, parse_mode=ParseMode.MARKDOWN_V2)
+bot = Bot(token, parse_mode=ParseMode.HTML)
 dp_main = Dispatcher(storage=storage)
 
 

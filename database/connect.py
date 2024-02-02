@@ -18,12 +18,12 @@ async def connect():  # Возвращает пул соединений с MySQ
     return db_pool
 
 
-# async def close_connection():
-#     logger.info("Close database connection")
-#     connection = db_connect
-#     connection.close()
-#     await connection.wait_closed()
-#
+async def close_connection():
+    logger.info("Close database connection")
+    connection = db_connect
+    connection.close()
+    await connection.wait_closed()
+
 
 logger.info("Connecting to database...")
 # Остановка выполнения до соединения с БД

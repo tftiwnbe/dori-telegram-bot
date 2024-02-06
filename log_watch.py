@@ -3,7 +3,7 @@ from logs.watcher import LogFileWatcher
 
 def main():
     watcher = LogFileWatcher(
-        redis_key="fac_log_position",
+        redis_key="factorio_log_position",
         log_file_path="/home/factorio",
         file_name="factorio.log",
         target_words=["JOIN", "LEAVE"],
